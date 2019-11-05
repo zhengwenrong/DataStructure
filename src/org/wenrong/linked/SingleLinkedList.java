@@ -37,6 +37,26 @@ public class SingleLinkedList {
         throw new RuntimeException("index not found");
     }
 
+    public void modify(int index,int data){
+
+        Node node = head;
+
+        int i = 0;
+
+        while(node.next != null){
+
+            node = node.next;
+
+            if(i == index){
+
+                node.data = data;
+                return;
+            }
+            i++;
+        }
+        throw new RuntimeException("index not found");
+    }
+
 
     public int delete(int index){
 
