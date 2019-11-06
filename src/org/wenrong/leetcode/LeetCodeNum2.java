@@ -31,6 +31,7 @@ public class LeetCodeNum2 {
 
         while(l1 != null && l2 != null){
 
+
             int sum = l1.val + l2.val;
 
             if(sum >= 10){
