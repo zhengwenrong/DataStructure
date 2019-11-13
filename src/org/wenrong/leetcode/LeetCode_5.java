@@ -10,33 +10,105 @@ public class LeetCode_5 {
 
         long l = System.currentTimeMillis();
         String s = "cyyoacmjwjubfkzrrbvquqkwhsxvmytmjvbborrtoiyotobzjmohpadfrvmxuagbdczsjuekjrmcwyaovpiogspbslcppxojgbfxhtsxmecgqjfuvahzpgprscjwwutwoiksegfreortttdotgxbfkisyakejihfjnrdngkwjxeituomuhmeiesctywhryqtjimwjadhhymydlsmcpycfdzrjhstxddvoqprrjufvihjcsoseltpyuaywgiocfodtylluuikkqkbrdxgjhrqiselmwnpdzdmpsvbfimnoulayqgdiavdgeiilayrafxlgxxtoqskmtixhbyjikfmsmxwribfzeffccczwdwukubopsoxliagenzwkbiveiajfirzvngverrbcwqmryvckvhpiioccmaqoxgmbwenyeyhzhliusupmrgmrcvwmdnniipvztmtklihobbekkgeopgwipihadswbqhzyxqsdgekazdtnamwzbitwfwezhhqznipalmomanbyezapgpxtjhudlcsfqondoiojkqadacnhcgwkhaxmttfebqelkjfigglxjfqegxpcawhpihrxydprdgavxjygfhgpcylpvsfcizkfbqzdnmxdgsjcekvrhesykldgptbeasktkasyuevtxrcrxmiylrlclocldmiwhuizhuaiophykxskufgjbmcmzpogpmyerzovzhqusxzrjcwgsdpcienkizutedcwrmowwolekockvyukyvmeidhjvbkoortjbemevrsquwnjoaikhbkycvvcscyamffbjyvkqkyeavtlkxyrrnsmqohyyqxzgtjdavgwpsgpjhqzttukynonbnnkuqfxgaatpilrrxhcqhfyyextrvqzktcrtrsbimuokxqtsbfkrgoiznhiysfhzspkpvrhtewthpbafmzgchqpgfsuiddjkhnwchpleibavgmuivfiorpteflholmnxdwewj";
-        System.out.println(longestPalindrome(s));
+
+        System.out.println(longestPalindrome2(s));
         long l1 = System.currentTimeMillis();
         System.out.println("执行时间： " + (l1 -l) + "ms");
     }
 
     public static String longestPalindrome2(String s) {
-if(s.length() <= 1)
-    return s;
-for(int i = s.length();i > 0; i--) {//子串长度
- for (int j = 0; j <= s.length() - i; j++) {
-String sub = s.substring(j , i + j);//子串位置
- int count = 0;//计数，用来判断是否对称
-for (int k = 0; k < sub.length() / 2; k++) {//左右对称判断
-if (sub.charAt(k) == sub.charAt(sub.length() - k - 1))
-count++;
-}
-if (count == sub.length() / 2)
-return sub;
-}
-}
- return "";//表示字符串中无回文子串
 
-}
+        if(s.length() <= 1)
+            return s;
+
+
+
+        int start = 0;
+        int end = 0;
+
+        for(int i = 1 ; i < s.length();i++){
+
+            //以i为中心点，对左右位置进行回文判断
+            //基数情况
+            int tempLeft = 0;
+            int tempRight = 0;
+            int oldLeft = i -1;
+            int oldRight = i + 1;
+            while(true){
+
+                if(oldRight > s.length() - 1){
+                    break;
+                }
+
+                if(s.charAt(oldLeft) == s.charAt(oldRight)){
+                    tempLeft = oldLeft;
+                    tempRight = oldRight;
+
+                    oldLeft = oldLeft - 1;
+                    if(oldLeft < 0){
+                        break;
+                    }
+
+                    oldRight = oldRight + 1;
+                    if(oldRight > s.length() - 1){
+                        break;
+                    }
+                }else {
+                    break;
+                }
+            }
+            if(start == 0 && end == 0){
+
+                start = tempLeft;
+                end = tempRight;
+
+            }else if((tempLeft==0&&tempRight != 0)||(tempLeft!= 0 && tempRight==0)||(tempLeft!=0&&tempRight != 0)){
+                if(s.substring(tempLeft,tempRight+1).length() > s.substring(start,end+1).length()){
+                    start = tempLeft;
+                    end = tempRight;
+                }
+            }
+
+            //偶数情况
+            int evenLeft = i-1;
+            int evenRight = i;
+            while (true) {
+                if(s.charAt(evenLeft) == s.charAt(evenRight)){
+                    tempLeft = evenLeft;
+                    tempRight = evenRight;
+                    evenLeft = evenLeft - 1;
+                    if(evenLeft < 0){
+                        break;
+                    }
+                    evenRight = evenRight + 1;
+                    if(evenRight > s.length()-1){
+                        break;
+                    }
+                }else {
+                    break;
+                }
+            }
+
+            if(start == 0 && end == 0){
+
+                start = tempLeft;
+                end = tempRight;
+
+            }else if((tempLeft==0&&tempRight != 0)||(tempLeft!= 0 && tempRight==0)||(tempLeft!=0&&tempRight != 0)){
+                if(s.substring(tempLeft,tempRight + 1).length() > s.substring(start,end + 1).length()){
+                    start = tempLeft;
+                    end = tempRight;
+                }
+            }
+
+        }
+
+        return s.substring(start,end+1);
+    }
 
     public static String longestPalindrome(String s) {
 
-        if(s.length() == 1)
+        if(s.length() <= 1)
             return s;
 
 
