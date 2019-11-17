@@ -43,7 +43,7 @@ public class DoubleLinkedList {
         return size;
     }
 
-    private Node getNodeAt(int index){
+    public Node getNodeAt(int index){
 
         int size = size();
 
@@ -72,7 +72,11 @@ public class DoubleLinkedList {
         Node nodeAt = getNodeAt(index);
 
         nodeAt.pre.next = nodeAt.next;
-        nodeAt.next.pre = nodeAt.pre;
+        if(nodeAt.next != null){
+
+            nodeAt.next.pre = nodeAt.pre;
+
+        }
 
         int data = nodeAt.data;
         nodeAt = null;
@@ -112,7 +116,7 @@ public class DoubleLinkedList {
 
     }
 
-    class Node {
+    public class Node {
 
         Node next;
         Node pre;
@@ -122,6 +126,10 @@ public class DoubleLinkedList {
 
         public Node(int data){
             this.data = data;
+        }
+
+        public int getData(){
+            return this.data;
         }
 
     }
