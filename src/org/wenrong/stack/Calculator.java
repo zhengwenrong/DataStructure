@@ -2,6 +2,7 @@ package org.wenrong.stack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * 使用逆波兰表达式实现计算器
@@ -61,10 +62,99 @@ public class Calculator {
     }
 
 
+    /**
+     * 中缀表达式a + b*c + (d * e + f) * g，其转换成后缀表达式则为a b c * + d e * f  + g * +。
+     *
+     * 转换过程需要用到栈，具体过程如下：
+     *
+     * 1）如果遇到操作数，我们就直接将其输出。
+     *
+     * 2）如果遇到操作符，则我们将其放入到栈中，遇到左括号时我们也将其放入栈中。
+     *
+     * 3）如果遇到一个右括号，则将栈元素弹出，将弹出的操作符输出直到遇到左括号为止。注意，左括号只弹出并不输出。
+     *
+     * 4）如果遇到任何其他的操作符，如（“+”， “*”，“（”）等，从栈中弹出元素直到遇到发现更低优先级的元素(或者栈为空)为止。弹出完这些元素后，才将遇到的操作符压入到栈中。有一点需要注意，只有在遇到" ) "的情况下我们才弹出" ( "，其他情况我们都不会弹出" ( "。
+     *
+     * 5）如果我们读到了输入的末尾，则将栈中所有元素依次弹出。
+     */
+    public static void fun(String expression){
+
+        //中缀表达式a + b*c + (d * e + f) * g，其转换成后缀表达式则为a b c * + d e * f  + g * +。
+
+        /*
+        1）如果遇到操作数，我们就直接将其输出。
+
+        2）如果遇到操作符，则我们将其放入到栈中，遇到左括号时我们也将其放入栈中。
+
+        3）如果遇到一个右括号，则将栈元素弹出，将弹出的操作符输出直到遇到左括号为止。注意，左括号只弹出并不输出。
+
+        4）如果遇到任何其他的操作符，如（“+”， “*”，“（”）等，从栈中弹出元素直到遇到发现更低优先级的元素(或者栈为空)为止。弹出完这些元素后，才将遇到的操作符压入到栈中。有一点需要注意，只有在遇到" ) "的情况下我们才弹出" ( "，其他情况我们都不会弹出" ( "。
+
+        5）如果我们读到了输入的末尾，则将栈中所有元素依次弹出。
+
+        */
+        List<String> strings = midExpression2ListString(expression);
+
+        String result = "";
+
+        Stack stack = new Stack();
+
+        for (String s : strings) {
+
+            if(s.matches("^[0-9]*$")){
+
+                    result += s;
+
+            }else if(s.contains(")")){
+
+                while(!stack.isEmpty()){
+
+                    String pop = (String) stack.pop();
+
+                    if(pop.contains("(")) {
+
+                        break;
+                    }else {
+                        result += pop;
+                    }
+                }
+
+
+            }else {
+
+                //栈顶元素
+                if(stack.isEmpty()){
+                    stack.push(s);
+                }else {
+                    String top = (String) stack.peek();
+
+                    if( s == top){
+                        //a+b*c+(d*e+f)*g
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+
+
+
     public static void main(String[] args) {
 
-        List<String> strings = midExpression2ListString("10+20+(123+19)*10");
-        System.out.println(strings);
+
+        String a = "+";
+        String b = "-";
+        String c = "*";
+        String d = "/";
+
+        System.out.println(a.compareTo(d));
+
     }
 
 
